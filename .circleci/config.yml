@@ -65,7 +65,7 @@ workflows:
       - deploy:
           context: maingot
           requires:
-            - test
+            - build
           filters:
             branches:
                 only: master
