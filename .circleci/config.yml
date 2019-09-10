@@ -1,0 +1,71 @@
+version: 2.1
+
+jobs:
+  build:
+    working_directory: ~/me
+    docker:
+      - image: circleci/node:latest-browsers
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies
+
+      - run:
+          name: Installing dependencies
+          command: yarn install
+
+      - run:
+          name: Run front end web tests
+          command: yarn test
+
+      - run:
+          name: Build bundle and all assets
+          command: yarn build
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Clean up workspace
+          command: rm -rf node_modules
+
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - ./
+
+  deploy:
+    working_directory: ~/me
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - attach_workspace:
+          at: ./
+
+      - run:
+          name: Install s3-deploy
+          command: npm install -g s3-deploy
+
+      - run:
+          name: Upload production web bundle to S3 and invalidate CloudFront distribution
+          command: s3-deploy './build/**' --cwd './build/' --region $AWS_REGION --bucket $S3_BUCKET_NAME --deleteRemoved --distId $CLOUDFRONT_DIST_ID --invalidate '/*'
+
+workflows:
+  version: 2
+  me:
+    jobs:
+      - build:
+          context: maingot
+
+      - deploy:
+          context: maingot
+          requires:
+            - test
+          filters:
+            branches:
+                only: master

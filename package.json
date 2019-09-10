@@ -1,7 +1,9 @@
 {
   "name": "me",
+  "description": "My personal site",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://hmm.dev",
   "dependencies": {
     "@material-ui/core": "^4.4.1",
     "@material-ui/icons": "^4.4.1",
