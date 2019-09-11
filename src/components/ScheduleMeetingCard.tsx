@@ -22,20 +22,20 @@ import { Button } from '@material-ui/core';
 
 const StyledCard = styled(Paper)`
   position: absolute;
-  width: 18rem;
-  height: 18rem;
+  width: 40%;
+  height: 90%;
   overflow: scroll;
-  top: 2.5rem;
+  top: 5%;
   padding: 1rem;
 
   &.show {
     transition: right 300ms ease-in-out;
-    right: 2rem;
+    right: 5%;
   }
 
   &.hide {
     transition: right 300ms ease-in-out;
-    right: -18rem;
+    right: -50%;
   }
 `;
 
@@ -107,7 +107,7 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
     }).then(resp => setSlotData(resp.data));
 
   React.useEffect(() => {
-    loadData(currentMonth, duration);
+    loadData(moment(), '15m');
   }, [])
 
   return (
@@ -147,7 +147,7 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
                   const dayData = slotData!.days.find(d => d.date === day!.format('YYYY-MM-DD'));
                   const unavailable = dayData === undefined || dayData.status === 'unavailable';
                   const isInPast = !!day && day.isBefore(moment());
-                  const isSelected = selectedDate && day && selectedDate.isSame(day) || false;
+                  const isSelected = (selectedDate && day && selectedDate.isSame(day)) || false;
 
                   return <Day selected={isSelected} disabled={unavailable || isInPast}>{day!.format('D')}</Day>;
                 }}

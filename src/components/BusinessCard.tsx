@@ -11,6 +11,12 @@ const CardContainer = styled.div`
   position: relative;
   background-color: transparent;
   perspective: 1000px;
+
+  @media screen and (max-width: 40rem) {
+    width: 100%;
+    height: 100%;
+    max-height: 80rem;
+  }
 `;
 
 const FlippingCard = styled.div`

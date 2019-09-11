@@ -8,7 +8,6 @@ import TwitterIcon from '../icons/TwitterIcon';
 import CoffeeIcon from '../icons/CoffeeIcon';
 
 import BackgroundImage from '../images/snow-me-small.jpg';
-import ScheduleMeetingModal from './ScheduleMeetingCard';
 import ScheduleMeetingCard from './ScheduleMeetingCard';
 
 const BCContainer = styled.div`
