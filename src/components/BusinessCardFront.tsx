@@ -19,6 +19,10 @@ const BCContainer = styled.div`
   background-position: right bottom;
   background-size: auto 80%;
   background-repeat: no-repeat;
+
+  @media screen and (max-width: 40rem) {
+    background-size: 80% auto;
+  }
 `;
 
 interface Props {

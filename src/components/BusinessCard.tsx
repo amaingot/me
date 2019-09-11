@@ -13,9 +13,8 @@ const CardContainer = styled.div`
   perspective: 1000px;
 
   @media screen and (max-width: 40rem) {
-    width: 100%;
-    height: 100%;
-    max-height: 80rem;
+    width: 100vw;
+    height: 100vh;
   }
 `;
 
