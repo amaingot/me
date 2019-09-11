@@ -5,16 +5,21 @@
   "private": true,
   "homepage": "https://hmm.dev",
   "dependencies": {
+    "@date-io/moment": "^1.3.11",
     "@material-ui/core": "^4.4.1",
     "@material-ui/icons": "^4.4.1",
+    "@material-ui/pickers": "^3.2.5",
     "@material-ui/styles": "^4.4.1",
     "axios": "^0.19.0",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.26",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "@types/jest": "24.0.18",
+    "@types/moment-timezone": "^0.5.12",
     "@types/node": "12.7.4",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",

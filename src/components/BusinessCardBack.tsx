@@ -8,7 +8,8 @@ import TwitterIcon from '../icons/TwitterIcon';
 import CoffeeIcon from '../icons/CoffeeIcon';
 
 import BackgroundImage from '../images/snow-me-small.jpg';
-import ScheduleMeetingModal from './ScheduleMeetingModal';
+import ScheduleMeetingModal from './ScheduleMeetingCard';
+import ScheduleMeetingCard from './ScheduleMeetingCard';
 
 const BCContainer = styled.div`
   width: 100%;
@@ -55,29 +56,27 @@ interface Props {
 }
 
 const BusinessCardBack: React.FC<Props> = (props) => {
-  const [modalOpen, setModalOpen] = React.useState(false);
+  const [showSchedule, setShowSchedule] = React.useState(false);
 
   return (
     <BCContainer>
       <FlipCardButton onClick={props.flipCard}>
         <RotatedBackIcon />
       </FlipCardButton>
-      <ConnectButton color="primary" variant="contained">
+      <ConnectButton href="https://www.linkedin.com/in/alexmaingot" color="primary" variant="contained">
         <LinkedInIcon /> Connect on LinkedIn
       </ConnectButton>
-      <ConnectButton color="primary" variant="contained">
+      <ConnectButton href="https://github.com/amaingot" color="primary" variant="contained">
         <GithubIcon /> See my Code
       </ConnectButton>
-      <ConnectButton color="primary" variant="contained">
+      <ConnectButton href="https://twitter.com/alexmaingot" color="primary" variant="contained">
         <TwitterIcon /> Tweet at Me
       </ConnectButton>
-      <ConnectButton color="primary" variant="contained" onClick={() => setModalOpen(true)}>
+      <ConnectButton color="primary" variant="contained" onClick={() => setShowSchedule(!showSchedule)}>
         <CoffeeIcon /> Meet with Me
       </ConnectButton>
-
-      <ScheduleMeetingModal open={modalOpen} onClose={() => setModalOpen(false)} />
-
       <HiddenImage src={BackgroundImage} />
+      <ScheduleMeetingCard show={showSchedule} />
     </BCContainer>
   );
 };
