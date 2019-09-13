@@ -15,24 +15,24 @@ jobs:
 
       - run:
           name: Installing dependencies
-          command: yarn install
+          command: yarn --cwd web install
 
       - run:
           name: Run front end web tests
-          command: yarn test
+          command: yarn --cwd web test
 
       - run:
           name: Build bundle and all assets
-          command: yarn build
+          command: yarn --cwd web build
 
       - save_cache:
           paths:
-            - node_modules
+            - web/node_modules
           key: v1-dependencies-{{ checksum "web/yarn.lock" }}
 
       - run:
           name: Clean up workspace
-          command: rm -rf node_modules
+          command: rm -rf web/node_modules
 
       - persist_to_workspace:
           root: ./
@@ -53,7 +53,7 @@ jobs:
 
       - run:
           name: Upload production web bundle to S3 and invalidate CloudFront distribution
-          command: s3-deploy './build/**' --cwd './build/' --region $AWS_REGION --bucket $S3_BUCKET_NAME --deleteRemoved --distId $CLOUDFRONT_DIST_ID --invalidate '/*'
+          command: s3-deploy './web/build/**' --cwd './web/build/' --region $AWS_REGION --bucket $S3_BUCKET_NAME --deleteRemoved --distId $CLOUDFRONT_DIST_ID --invalidate '/*'
 
 workflows:
   version: 2
