@@ -1,8 +1,8 @@
 version: 2.1
 
 jobs:
-  build:
-    working_directory: ~/me
+  build-web:
+    working_directory: ~/me/web
     docker:
       - image: circleci/node:latest-browsers
     steps:
@@ -39,8 +39,8 @@ jobs:
           paths:
             - ./
 
-  deploy:
-    working_directory: ~/me
+  deploy-web:
+    working_directory: ~/me/web
     docker:
       - image: circleci/node:latest
     steps:
@@ -59,10 +59,10 @@ workflows:
   version: 2
   me:
     jobs:
-      - build:
+      - build-web:
           context: maingot
 
-      - deploy:
+      - deploy-web:
           context: maingot
           requires:
             - build
