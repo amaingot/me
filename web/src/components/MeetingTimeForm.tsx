@@ -58,8 +58,13 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
 
   const onMonthChange = async (date: Moment | null) => {
     if (date) {
-      setCurrentMonth(date);
-      await loadData(date.date(1), selectedDuration);
+      if (date.isBefore(moment())) {
+        setCurrentMonth(moment());
+        await loadData(moment(), selectedDuration);
+      } else {
+        setCurrentMonth(date);
+        await loadData(date.date(1), selectedDuration);
+      }
     }
   };
 
@@ -98,10 +103,11 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
         }
       })
       .then(props.onFinishedFirstLoad);
-  }, [props]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <form>
+    <form onSubmit={submit}>
       <FormControl fullWidth>
         <InputLabel htmlFor="selectedDuration">Duration</InputLabel>
         <Select
@@ -149,8 +155,8 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
         />
       </FormControl>
 
-      <FormControl fullWidth>
-        <InputLabel error={availableSpots.length === 0} htmlFor="time">Time</InputLabel>
+      <FormControl fullWidth required>
+        <InputLabel htmlFor="time">Time</InputLabel>
         <Select
           value={selectedSlot || ""}
           onChange={e => setSelectedSlot(e.target.value as string)}
@@ -171,7 +177,7 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
       </FormControl>
       <Button
         className={classes.button}
-        onClick={submit}
+        type="submit"
         disabled={!selectedSlot}
         variant="contained"
         color="primary"
