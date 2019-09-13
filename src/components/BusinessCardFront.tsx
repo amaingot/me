@@ -22,6 +22,12 @@ const BCContainer = styled.div`
 
   @media screen and (max-width: 40rem) {
     background-size: 80% auto;
+    padding: 2rem;
+  }
+
+  @media screen and (max-height: 20rem) {
+    background-size: auto 80%;
+    padding: 1rem;
   }
 `;
 

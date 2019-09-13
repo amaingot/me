@@ -92,6 +92,7 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
     value: unknown;
   }>) => {
     setDuration(e.target.value as DurationTypes);
+    setSelectedTime(null);
     loadData(currentMonth.date(1), e.target.value as string);
   };
 
@@ -105,6 +106,15 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
         range_end: currMonth.date(1).add(1, 'month').subtract(1, 'day').format('YYYY-MM-DD'),
       }
     }).then(resp => setSlotData(resp.data));
+
+  const scheduleMeeting = () => {
+    console.log({
+      date: selectedDate,
+      time: selectedTime,
+      name: name,
+      email: email,
+    });
+  };
 
   React.useEffect(() => {
     loadData(moment(), '15m');
@@ -193,7 +203,7 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
             fullWidth
             margin="dense"
           />
-          <SubmitButton onClick={() => setTimeSelected(true)} disabled={!selectedTime} variant="contained" color="primary" fullWidth>Schedule</SubmitButton>
+          <SubmitButton onClick={scheduleMeeting} disabled={!selectedTime} variant="contained" color="primary" fullWidth>Schedule</SubmitButton>
 
         </React.Fragment>
       )}
