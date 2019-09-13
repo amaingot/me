@@ -65,7 +65,7 @@ workflows:
       - deploy-web:
           context: maingot
           requires:
-            - build
+            - build-web
           filters:
             branches:
                 only: master
