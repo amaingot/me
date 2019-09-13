@@ -10,7 +10,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-{{ checksum "web/yarn.lock" }}
             - v1-dependencies
 
       - run:
@@ -28,7 +28,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
+          key: v1-dependencies-{{ checksum "web/yarn.lock" }}
 
       - run:
           name: Clean up workspace
