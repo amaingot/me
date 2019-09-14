@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
   build-web:
-    working_directory: ~/me/web
+    working_directory: ~/me
     docker:
       - image: circleci/node:latest-browsers
     steps:
@@ -10,25 +10,30 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "web/yarn.lock" }}
-            - v1-dependencies
+            - v2-web-dependencies-{{ checksum "yarn.lock" }}-{{ checksum "web/yarn.lock" }}
+            - v2-web-dependencies
 
       - run:
-          name: Installing dependencies
-          command: yarn --cwd web install
+          name: Installing root dependencies
+          command: yarn install
+
+      - run:
+          name: Installing web dependencies
+          command: yarn install:web
 
       - run:
           name: Run front end web tests
-          command: yarn --cwd web test
+          command: yarn test:web
 
       - run:
           name: Build bundle and all assets
-          command: yarn --cwd web build
+          command: yarn build:web
 
       - save_cache:
           paths:
+            - node_modules
             - web/node_modules
-          key: v1-dependencies-{{ checksum "web/yarn.lock" }}
+          key: v2-web-dependencies-{{ checksum "yarn.lock" }}-{{ checksum "web/yarn.lock" }}
 
       - run:
           name: Clean up workspace
@@ -40,7 +45,7 @@ jobs:
             - ./
 
   deploy-web:
-    working_directory: ~/me/web
+    working_directory: ~/me
     docker:
       - image: circleci/node:latest
     steps:
@@ -48,12 +53,38 @@ jobs:
           at: ./
 
       - run:
-          name: Install s3-deploy
-          command: sudo npm install -g s3-deploy
+          name: Upload production web bundle to S3 and invalidate CloudFront distribution
+          command: yarn deploy:web
+
+  deploy-api:
+    working_directory: ~/me
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v2-api-dependencies-{{ checksum "yarn.lock" }}-{{ checksum "api/yarn.lock" }}
+            - v2-api-dependencies
 
       - run:
-          name: Upload production web bundle to S3 and invalidate CloudFront distribution
-          command: s3-deploy './web/build/**' --cwd './web/build/' --region $AWS_REGION --bucket $S3_BUCKET_NAME --deleteRemoved --distId $CLOUDFRONT_DIST_ID --invalidate '/*'
+          name: Installing root dependencies
+          command: yarn install
+
+      - run:
+          name: Installing dependencies
+          command: yarn install:api
+
+      - run:
+          name: Deploying API
+          command: yarn deploy:api
+
+      - save_cache:
+          paths:
+            - node_modules
+            - api/node_modules
+          key: v2-api-dependencies-{{ checksum "yarn.lock" }}-{{ checksum "api/yarn.lock" }}
 
 workflows:
   version: 2
@@ -63,6 +94,14 @@ workflows:
           context: maingot
 
       - deploy-web:
+          context: maingot
+          requires:
+            - build-web
+          filters:
+            branches:
+                only: master
+
+      - deploy-api:
           context: maingot
           requires:
             - build-web

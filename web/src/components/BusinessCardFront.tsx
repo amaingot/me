@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 
 import headshot from '../images/headshot-small.jpg';
 
@@ -41,7 +40,7 @@ const BusinessCardFront: React.FC<Props> = (props) => {
     <BCContainer>
       <div>
         <Typography variant="h4">Alex Maingot</Typography>
-        <Typography variant="subtitle2">Software Developer, <Link href="https://scalefactor.com/" target="_blank">ScaleFactor</Link></Typography>
+        <Typography variant="subtitle2">Software Engineer</Typography>
         <Typography variant="subtitle1">Austin, Texas</Typography>
       </div>
       <div>

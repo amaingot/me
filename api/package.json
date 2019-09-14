@@ -1,14 +1,16 @@
 {
   "name": "me-api",
   "version": "1.0.0",
-  "private": true,
   "description": "My personal API",
-  "main": "handler.js",
+  "private": true,
+  "author": "Alex Maingot (alex@maingot.us)",
+  "homepage": "https://hmm.dev",
   "scripts": {
     "start": "serverless offline",
     "deploy:prod": "serverless deploy -v --stage prod",
     "deploy:dev": "serverless deploy -v --stage dev"
   },
+  "main": "handler.js",
   "dependencies": {
     "axios": "^0.19.0",
     "moment": "^2.24.0",

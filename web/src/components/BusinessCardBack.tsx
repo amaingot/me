@@ -58,6 +58,11 @@ const BusinessCardBack: React.FC<Props> = (props) => {
     props.flipCard();
   };
 
+  React.useEffect(() => {
+    const img = new Image();
+    img.src = BackgroundImage;
+  }, []);
+
   return (
     <div className={classes.container}>
       <Button className={classes.flipCardButton} onClick={flipCard}>

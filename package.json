@@ -1,0 +1,35 @@
+{
+  "name": "me",
+  "description": "My personal web app",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Alex Maingot (alex@maingot.us)",
+  "homepage": "https://hmm.dev",
+  "scripts": {
+    "bootstrap": "lerna boostrap",
+    "install:api": "lerna run --scope api install",
+    "install:web": "lerna run --scope web install",
+    "test:web": "lerna run --scope web test",
+    "build:web": "lerna run --scope web build",
+    "deploy:api": "lerna run --scope web deploy:prod",
+    "deploy:web": "s3-deploy './web/build/**' --cwd './web/build/' --region $AWS_REGION --bucket $S3_BUCKET_NAME --deleteRemoved --distId $CLOUDFRONT_DIST_ID --invalidate '/*'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amaingot/me.git"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "serverless",
+    "material-ui",
+    "aws-lambda"
+  ],
+  "bugs": {
+    "url": "https://github.com/amaingot/me/issues"
+  },
+  "dependencies": {
+    "lerna": "^3.16.4",
+    "s3-deploy": "^1.4.0"
+  }
+}
