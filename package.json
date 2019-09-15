@@ -6,9 +6,8 @@
   "author": "Alex Maingot (alex@maingot.us)",
   "homepage": "https://hmm.dev",
   "scripts": {
-    "bootstrap": "lerna boostrap",
-    "install:api": "lerna run --scope api install",
-    "install:web": "lerna run --scope web install",
+    "bootstrap": "lerna bootstrap",
+    "start": "lerna run start --parallel",
     "test:web": "lerna run --scope web test",
     "build:web": "lerna run --scope web build",
     "deploy:api": "lerna run --scope web deploy:prod",

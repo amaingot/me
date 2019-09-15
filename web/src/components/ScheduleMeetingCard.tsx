@@ -10,7 +10,7 @@ import { Theme, Link } from '@material-ui/core';
 import Zoom from '@material-ui/core/Zoom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
-import { CalendlyScheduleResponse } from '../types/CalendlyResponses';
+import { ScheduleResponse } from '../types/APIResponses';
 import getApiHost from '../utils/getApiHost';
 import MeetingTimeForm from './MeetingTimeForm';
 import MeetingContactForm from './MeetingContactForm';
@@ -76,7 +76,7 @@ interface Props {
 const ScheduleMeetingCard: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<boolean>(false);
-  const [successReponse, setSuccessResponse] = React.useState<CalendlyScheduleResponse>();
+  const [successReponse, setSuccessResponse] = React.useState<ScheduleResponse>();
   const [duration, setDuration] = React.useState('15m');
   const [timeSelected, setTimeSelected] = React.useState<Moment>();
 
@@ -97,7 +97,7 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
       email,
     };
 
-    axios.post<CalendlyScheduleResponse>(`${getApiHost()}/meeting/${duration}/schedule`, data)
+    axios.post<ScheduleResponse>(`${getApiHost()}/meeting/${duration}/schedule`, data)
       .then(resp => {
         if (resp.status === 200) {
           setSuccessResponse(resp.data);

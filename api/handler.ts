@@ -4,9 +4,9 @@ import * as moment from 'moment-timezone';
 import 'source-map-support/register';
 
 const EVENT_IDS = {
-  '15m': 'AFAE7F7AVAJWGFUO',
-  '30m': 'EFGF2C4GQGKQHAQQ',
-  '1hr': 'FHDF3C4GVDJWEAR7'
+  '15m': process.env['15M_MEETING_ID'],
+  '30m': process.env['30M_MEETING_ID'],
+  '1hr': process.env['1HR_MEETING_ID'],
 };
 
 export const availability: APIGatewayProxyHandler = async (event, _context) => {
@@ -76,7 +76,7 @@ export const availability: APIGatewayProxyHandler = async (event, _context) => {
   }
 
   const response = await axios.get(
-    `https://calendly.com/api/booking/event_types/${eventId}/calendar/range`,
+    process.env.AVAILABILITY_ENDPOINT.replace('EVENT_ID', eventId),
     {
       params: requestParams,
     });
@@ -86,7 +86,8 @@ export const availability: APIGatewayProxyHandler = async (event, _context) => {
     headers: response.headers,
     body: JSON.stringify({
       params: requestParams,
-      days: response.data.days
+      days: response.data.days,
+      env: process.env,
     }),
   };
 }
@@ -157,7 +158,7 @@ export const schedule: APIGatewayProxyHandler = async (event, _context) => {
     };
   }
 
-  const response = await axios.post('https://calendly.com/api/booking/invitees', {
+  const response = await axios.post(process.env.CREATE_MEETING_ENDPOINT, {
     event_type_uuid: eventId,
     event: {
       start_time: parsedSlot,

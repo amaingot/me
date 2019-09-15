@@ -1,4 +1,4 @@
-export interface CalendlyAvalibility {
+export interface AvalibilityResponse {
   availability_timezone: string;
   days: DayAvaliability[];
   diagnostic_data?: object;
@@ -26,7 +26,7 @@ export interface TimeSlot {
   status: AvalibilityStatus;
 }
 
-export interface CalendlyScheduleResponse {
+export interface ScheduleResponse {
   event: {
     id: number;
     start_time: string;

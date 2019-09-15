@@ -5,6 +5,7 @@ service:
 plugins:
   - serverless-webpack
   - serverless-offline
+  - serverless-dotenv-plugin
 
 provider:
   name: aws
@@ -18,6 +19,11 @@ functions:
           method: get
           path: meeting/{duration}/availability
           cors: true
+    environment:
+      15M_MEETING_ID: ${self:custom.secrets.15M_MEETING_ID}
+      30M_MEETING_ID: ${self:custom.secrets.30M_MEETING_ID}
+      1HR_MEETING_ID: ${self:custom.secrets.1HR_MEETING_ID}
+      AVAILABILITY_ENDPOINT: ${self:custom.secrets.AVAILABILITY_ENDPOINT}
 
   meeting-schedule:
     handler: handler.schedule
@@ -26,8 +32,13 @@ functions:
           method: post
           path: meeting/{duration}/schedule
           cors: true
-
+    environment:
+      15M_MEETING_ID: ${self:custom.secrets.15M_MEETING_ID}
+      30M_MEETING_ID: ${self:custom.secrets.30M_MEETING_ID}
+      1HR_MEETING_ID: ${self:custom.secrets.1HR_MEETING_ID}
+      CREATE_MEETING_ENDPOINT: ${self:custom.secrets.CREATE_MEETING_ENDPOINT}
 
 custom:
   serverless-offline:
     port: 3001
+  secrets: ${ssm:/aws/reference/secretsmanager/${env:AWS_SECRET_NAME}~true}

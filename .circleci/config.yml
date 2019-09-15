@@ -19,7 +19,7 @@ jobs:
 
       - run:
           name: Installing web dependencies
-          command: yarn install:web
+          command: yarn --cwd web install
 
       - run:
           name: Run front end web tests
@@ -73,8 +73,8 @@ jobs:
           command: yarn install
 
       - run:
-          name: Installing dependencies
-          command: yarn install:api
+          name: Installing API dependencies
+          command: yarn --cwd api install
 
       - run:
           name: Deploying API

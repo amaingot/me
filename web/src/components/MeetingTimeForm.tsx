@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { DatePicker, Day } from '@material-ui/pickers';
 
-import { CalendlyAvalibility, TimeSlot } from '../types/CalendlyResponses';
+import { AvalibilityResponse, TimeSlot } from '../types/APIResponses';
 import getApiHost from '../utils/getApiHost';
 
 const useStyles = makeStyles({
@@ -34,7 +34,7 @@ interface Props {
 
 const MeetingTimeForm: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const [slotData, setSlotData] = React.useState<CalendlyAvalibility>();
+  const [slotData, setSlotData] = React.useState<AvalibilityResponse>();
 
   const [selectedDuration, setDuration] = React.useState<DurationTypes>('15m');
   const [currentMonth, setCurrentMonth] = React.useState<Moment>(moment());
@@ -78,7 +78,7 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
   };
 
   const loadData = (date: Moment, dur: string) =>
-    axios.get<CalendlyAvalibility>(`${getApiHost()}/meeting/${dur}/availability`, {
+    axios.get<AvalibilityResponse>(`${getApiHost()}/meeting/${dur}/availability`, {
       params: {
         tz: moment.tz.guess(),
         date: date.format('YYYY-MM-DD'),
