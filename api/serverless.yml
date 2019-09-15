@@ -1,29 +1,39 @@
 service:
   name: me-api
   app: me
-  tracing: true
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "xray:PutTraceSegments"
-        - "xray:PutTelemetryRecords"
-      Resource:
-        - "*"
-
 plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-dotenv-plugin
-  - serverless-plugin-tracing
 
 provider:
   name: aws
   runtime: nodejs10.x
+  tracing:
+    apiGateway: true
+    lambda: true
+  logs:
+    restApi:
+      level: INFO
+      executionLogging: true
+      fullExecutionData: true
+    frameworkLambda: true
+  individually: true
+  memorySize: 128
+  iamManagedPolicies:
+    - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    - 'arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess'
+  environment:
+    AWS_XRAY_CONTEXT_MISSING: LOG_ERROR
+    MEETING_15M_ID: ${self:custom.secrets.MEETING_15M_ID}
+    MEETING_30M_ID: ${self:custom.secrets.MEETING_30M_ID}
+    MEETING_1HR_ID: ${self:custom.secrets.MEETING_1HR_ID}
+    AVAILABILITY_ENDPOINT: ${self:custom.secrets.AVAILABILITY_ENDPOINT}
+    CREATE_MEETING_ENDPOINT: ${self:custom.secrets.CREATE_MEETING_ENDPOINT}
 
 functions:
   meeting-availability:
-    handler: handler.availability
-    tracing: true
+    handler: src/availability.handler
     events:
       - http:
           method: get
@@ -31,15 +41,9 @@ functions:
           cors:
             origins:
               - https://hmm.dev
-    environment:
-      MEETING_15M_ID: ${self:custom.secrets.MEETING_15M_ID}
-      MEETING_30M_ID: ${self:custom.secrets.MEETING_30M_ID}
-      MEETING_1HR_ID: ${self:custom.secrets.MEETING_1HR_ID}
-      AVAILABILITY_ENDPOINT: ${self:custom.secrets.AVAILABILITY_ENDPOINT}
 
   meeting-schedule:
-    handler: handler.schedule
-    tracing: true
+    handler: src/schedule.handler
     events:
       - http:
           method: post
@@ -47,11 +51,6 @@ functions:
           cors:
             origins:
               - https://hmm.dev
-    environment:
-      MEETING_15M_ID: ${self:custom.secrets.MEETING_15M_ID}
-      MEETING_30M_ID: ${self:custom.secrets.MEETING_30M_ID}
-      MEETING_1HR_ID: ${self:custom.secrets.MEETING_1HR_ID}
-      CREATE_MEETING_ENDPOINT: ${self:custom.secrets.CREATE_MEETING_ENDPOINT}
 
 custom:
   serverless-offline:

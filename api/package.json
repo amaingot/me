@@ -10,14 +10,11 @@
     "deploy:prod": "serverless deploy -v --stage prod",
     "deploy:dev": "serverless deploy -v --stage dev"
   },
-  "main": "handler.js",
   "dependencies": {
-    "aws-xray-sdk": "^2.3.6",
     "axios": "^0.19.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
-    "source-map-support": "^0.5.10",
-    "winston": "^3.2.1"
+    "source-map-support": "^0.5.10"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.17",
