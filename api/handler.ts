@@ -90,7 +90,10 @@ export const availability: APIGatewayProxyHandler = async (event, _context) => {
 
   return {
     statusCode: response.status,
-    headers: response.headers,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://hmm.dev',
+      ...response.headers
+    },
     body: JSON.stringify({
       params: requestParams,
       days: response.data.days,
@@ -181,7 +184,10 @@ export const schedule: APIGatewayProxyHandler = async (event, _context) => {
 
   return {
     statusCode: response.status,
-    headers: response.headers,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://hmm.dev',
+      ...response.headers
+    },
     body: JSON.stringify(response.data),
   };
 }

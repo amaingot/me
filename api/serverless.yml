@@ -27,7 +27,9 @@ functions:
       - http:
           method: get
           path: meeting/{duration}/availability
-          cors: true
+          cors:
+            origins:
+              - https://hmm.dev
     environment:
       MEETING_15M_ID: ${self:custom.secrets.MEETING_15M_ID}
       MEETING_30M_ID: ${self:custom.secrets.MEETING_30M_ID}
@@ -40,7 +42,9 @@ functions:
       - http:
           method: post
           path: meeting/{duration}/schedule
-          cors: true
+          cors:
+            origins:
+              - https://hmm.dev
     environment:
       MEETING_15M_ID: ${self:custom.secrets.MEETING_15M_ID}
       MEETING_30M_ID: ${self:custom.secrets.MEETING_30M_ID}
