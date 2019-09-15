@@ -56,6 +56,28 @@ jobs:
           name: Upload production web bundle to S3 and invalidate CloudFront distribution
           command: yarn deploy:web
 
+      - run:
+          name: Deployment notification to Rollbar for me-web
+          command: |
+            curl https://api.rollbar.com/api/1/deploy/ \
+              -F access_token=$ROLLBAR_WEB_DEPLOY_TOKEN \
+              -F environment=production \
+              -F revision=$CIRCLE_SHA1 \
+              -F local_username=$CIRCLE_USERNAME
+
+      - run:
+          name: Rollbar sourcemap upalods for me-web
+          command: |
+            cd web/build
+            find static/js/**.js | while read file
+            do
+              curl https://api.rollbar.com/api/1/sourcemap/ \
+                -F access_token=$ROLLBAR_WEB_DEPLOY_TOKEN \
+                -F version=$CIRCLE_SHA1 \
+                -F minified_url=https://hmm.dev/$file \
+                -F source_map=@"${file}.map"
+            done
+
   deploy-api:
     working_directory: ~/me
     docker:
