@@ -1,6 +1,7 @@
 service:
   name: me-api
   app: me
+  tracing: true
   iamRoleStatements:
     - Effect: "Allow"
       Action:
