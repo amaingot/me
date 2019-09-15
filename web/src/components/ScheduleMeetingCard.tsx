@@ -118,7 +118,7 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
     <Paper className={classes.card}>
       <Typography gutterBottom variant="h5">Let's Meet!</Typography>
       {!error && !timeSelected && props.show &&
-        <MeetingTimeForm onFinishedFirstLoad={() => setLoading(false)} onSubmit={handleTimeSelected} />
+        <MeetingTimeForm onFinishedFirstLoad={() => setLoading(false)} onError={() => setError(true)} onSubmit={handleTimeSelected} />
       }
 
       {!error && !loading && timeSelected && !successReponse && (

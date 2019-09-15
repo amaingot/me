@@ -30,6 +30,7 @@ type DurationTypes = keyof typeof Durations;
 interface Props {
   onSubmit: (time: Moment, duration: string) => void;
   onFinishedFirstLoad: () => void;
+  onError: () => void;
 }
 
 const MeetingTimeForm: React.FC<Props> = (props) => {
@@ -83,10 +84,12 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
         tz: moment.tz.guess(),
         date: date.format('YYYY-MM-DD'),
       }
-    }).then(resp => {
-      setSlotData(resp.data);
-      return resp.data;
-    });
+    })
+      .then(resp => {
+        if (resp.status > 400) props.onError();
+        setSlotData(resp.data);
+        return resp.data;
+      });
 
   const submit = () => {
     if (selectedSlot && moment(selectedSlot).isValid()) {
@@ -97,6 +100,7 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
   React.useEffect(() => {
     loadData(moment(), '15m')
       .then(({ days }) => {
+        if (!days) return;
         const earliestAvailableDay = days.find(d => d.status === 'available');
         if (earliestAvailableDay) {
           setSelectedDate(moment(earliestAvailableDay.date));
@@ -138,19 +142,23 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
           onChange={handleDateChange}
           onMonthChange={onMonthChange}
           shouldDisableDate={(day) => {
-            const dayData = slotData!.days.find(d => d.date === day!.format('YYYY-MM-DD'));
+            if (!slotData || !slotData.days || !slotData.days.length) return false;
+            const dayData = slotData.days.find(d => d.date === day!.format('YYYY-MM-DD'));
             const unavailable = dayData === undefined || dayData.status === 'unavailable';
             const isInPast = !!day && day.isBefore(moment());
 
             return unavailable || isInPast;
           }}
           renderDay={(day, selectedDate) => {
-            const dayData = slotData!.days.find(d => d.date === day!.format('YYYY-MM-DD'));
-            const unavailable = dayData === undefined || dayData.status === 'unavailable';
-            const isInPast = !!day && day.isBefore(moment());
+            let disabled = !!day && day.isBefore(moment());
             const isSelected = (selectedDate && day && selectedDate.isSame(day)) || false;
 
-            return <Day selected={isSelected} disabled={unavailable || isInPast}>{day!.format('D')}</Day>;
+            if (slotData && slotData.days && slotData.days.length) {
+              const dayData = slotData.days.find(d => d.date === day!.format('YYYY-MM-DD'));
+              disabled = (dayData === undefined || dayData.status === 'unavailable') ? true : disabled;
+            }
+
+            return <Day selected={isSelected} disabled={disabled}>{day!.format('D')}</Day>;
           }}
         />
       </FormControl>
