@@ -105,9 +105,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   const result = {
     statusCode: response.status,
     headers: {
-      ...response.headers,
-      'Access-Control-Allow-Credentials': true,
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Origin': 'https://hmm.dev',
     },
     body: JSON.stringify(response.data),
   };
