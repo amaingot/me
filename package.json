@@ -10,7 +10,7 @@
     "start": "lerna run start --parallel",
     "test:web": "lerna run --scope web test",
     "build:web": "lerna run --scope web build",
-    "deploy:api": "lerna run --scope web deploy:prod",
+    "deploy:api": "lerna run --scope api deploy:prod",
     "deploy:web": "s3-deploy './web/build/**' --cwd './web/build/' --region $AWS_REGION --bucket $S3_BUCKET_NAME --deleteRemoved --distId $CLOUDFRONT_DIST_ID --invalidate '/*'"
   },
   "repository": {
