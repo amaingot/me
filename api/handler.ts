@@ -1,3 +1,10 @@
+import AWSXRay from 'aws-xray-sdk';
+import http from 'http';
+import https from 'https';
+
+AWSXRay.captureHTTPsGlobal(http);
+AWSXRay.captureHTTPsGlobal(https);
+
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import axios from 'axios';
 import * as moment from 'moment-timezone';
