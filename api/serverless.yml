@@ -23,6 +23,7 @@ provider:
 functions:
   meeting-availability:
     handler: handler.availability
+    tracing: true
     events:
       - http:
           method: get
@@ -38,6 +39,7 @@ functions:
 
   meeting-schedule:
     handler: handler.schedule
+    tracing: true
     events:
       - http:
           method: post
