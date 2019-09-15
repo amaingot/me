@@ -69,16 +69,12 @@ jobs:
             - v2-api-dependencies
 
       - run:
-          name: Installing root dependencies
-          command: yarn install
-
-      - run:
           name: Installing API dependencies
           command: yarn --cwd api install
 
       - run:
           name: Deploying API
-          command: yarn deploy:api
+          command: yarn --cwd api deploy:prod
 
       - save_cache:
           paths:

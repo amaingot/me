@@ -4,9 +4,9 @@ import * as moment from 'moment-timezone';
 import 'source-map-support/register';
 
 const EVENT_IDS = {
-  '15m': process.env['15M_MEETING_ID'],
-  '30m': process.env['30M_MEETING_ID'],
-  '1hr': process.env['1HR_MEETING_ID'],
+  '15m': process.env.MEETING_15M_ID,
+  '30m': process.env.MEETING_30M_ID,
+  '1hr': process.env.MEETING_1HR_ID,
 };
 
 export const availability: APIGatewayProxyHandler = async (event, _context) => {

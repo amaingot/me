@@ -20,9 +20,9 @@ functions:
           path: meeting/{duration}/availability
           cors: true
     environment:
-      15M_MEETING_ID: ${self:custom.secrets.15M_MEETING_ID}
-      30M_MEETING_ID: ${self:custom.secrets.30M_MEETING_ID}
-      1HR_MEETING_ID: ${self:custom.secrets.1HR_MEETING_ID}
+      MEETING_15M_ID: ${self:custom.secrets.MEETING_15M_ID}
+      MEETING_30M_ID: ${self:custom.secrets.MEETING_30M_ID}
+      MEETING_1HR_ID: ${self:custom.secrets.MEETING_1HR_ID}
       AVAILABILITY_ENDPOINT: ${self:custom.secrets.AVAILABILITY_ENDPOINT}
 
   meeting-schedule:
@@ -33,9 +33,9 @@ functions:
           path: meeting/{duration}/schedule
           cors: true
     environment:
-      15M_MEETING_ID: ${self:custom.secrets.15M_MEETING_ID}
-      30M_MEETING_ID: ${self:custom.secrets.30M_MEETING_ID}
-      1HR_MEETING_ID: ${self:custom.secrets.1HR_MEETING_ID}
+      MEETING_15M_ID: ${self:custom.secrets.MEETING_15M_ID}
+      MEETING_30M_ID: ${self:custom.secrets.MEETING_30M_ID}
+      MEETING_1HR_ID: ${self:custom.secrets.MEETING_1HR_ID}
       CREATE_MEETING_ENDPOINT: ${self:custom.secrets.CREATE_MEETING_ENDPOINT}
 
 custom:
