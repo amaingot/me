@@ -1,10 +1,7 @@
 import AWSXRay from 'aws-xray-sdk';
 import http from 'http';
 import https from 'https';
-
-AWSXRay.captureHTTPsGlobal(http);
-AWSXRay.captureHTTPsGlobal(https);
-
+import Winston from 'winston';
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import axios from 'axios';
 import * as moment from 'moment-timezone';
@@ -17,6 +14,11 @@ const EVENT_IDS = {
 };
 
 export const availability: APIGatewayProxyHandler = async (event, _context) => {
+  AWSXRay.setLogger(Winston);
+  AWSXRay.captureHTTPsGlobal(http);
+  AWSXRay.captureHTTPsGlobal(https);
+
+
   const { duration } = event.pathParameters;
   const { queryStringParameters: query } = event;
   let eventId = '';
@@ -103,6 +105,11 @@ export const availability: APIGatewayProxyHandler = async (event, _context) => {
 }
 
 export const schedule: APIGatewayProxyHandler = async (event, _context) => {
+  AWSXRay.setLogger(Winston);
+  AWSXRay.captureHTTPsGlobal(http);
+  AWSXRay.captureHTTPsGlobal(https);
+
+
   const { duration } = event.pathParameters;
   let eventId = '';
 
