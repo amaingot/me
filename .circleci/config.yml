@@ -28,6 +28,8 @@ jobs:
       - run:
           name: Build bundle and all assets
           command: yarn build:web
+          environment:
+            REACT_APP_VERSION: $CIRCLE_SHA1
 
       - save_cache:
           paths:
@@ -51,6 +53,10 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
+
+      - run:
+          name: Move sourcemaps to their own directory
+          command: mkdir sm && mv web/build/static/js/*.map sm/
 
       - run:
           name: Upload production web bundle to S3 and invalidate CloudFront distribution

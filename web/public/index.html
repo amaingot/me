@@ -12,7 +12,8 @@
               client: {
                 javascript: {
                   source_map_enabled: true,
-                  code_version: "%CIRCLE_SHA1%",
+                  code_version: "%REACT_APP_VERSION%",
+                  guess_uncaught_frames: true,
                 }
               }
           }
