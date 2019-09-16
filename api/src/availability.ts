@@ -50,7 +50,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   }
 
   const parsedDate = moment.tz(query.date, query.tz || 'America/Chicago');
-  const currentDate = moment.tz(new Date(), moment.tz.guess()).tz(query.tz || 'America/Chicago');
+  const currentDate = moment.tz(new Date(), moment.tz.guess()).tz(query.tz || 'America/Chicago').set('date', 1);
   if (query.date && !parsedDate.isValid()) {
     console.error("Invalid date format: ", query.date);
     return {
