@@ -8,7 +8,13 @@
           captureUncaught: true,
           captureUnhandledRejections: true,
           payload: {
-              environment: "%NODE_ENV%"
+              environment: "%NODE_ENV%",
+              client: {
+                javascript: {
+                  source_map_enabled: true,
+                  code_version: "%CIRCLE_SHA1%",
+                }
+              }
           }
       };
       // Rollbar Snippet
