@@ -86,7 +86,7 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
       }
     })
       .then(resp => {
-        if (resp.status > 400) props.onError();
+        if (resp.status >= 400) props.onError();
         setSlotData(resp.data);
         return resp.data;
       });
