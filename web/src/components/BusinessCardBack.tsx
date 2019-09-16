@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import ReactGA from 'react-ga';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '../utils/Theme';
 import Button from '@material-ui/core/Button';
 import BackIcon from '@material-ui/icons/Reply';
 

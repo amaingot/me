@@ -1,5 +1,5 @@
 import React from 'react';
-import { createMuiTheme, responsiveFontSizes, makeStyles } from '@material-ui/core/styles';
+
 import CSSBaseline from '@material-ui/core/CssBaseline';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import blueGrey from '@material-ui/core/colors/blueGrey';
@@ -8,6 +8,8 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 import LogoIcon from './icons/LogoIcon';
 import BusinessCard from './components/BusinessCard';
+import { Theme } from './utils/Theme';
+import { makeStyles } from './utils/Theme';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -29,27 +31,13 @@ const useStyles = makeStyles({
   },
 });
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#69f0ae',
-    },
-  },
-  typography: {
-    fontFamily: ['Source Code Pro', 'monospace'].join(','),
-  },
-});
-
 const App: React.FC = () => {
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <CSSBaseline />
-      <ThemeProvider theme={responsiveFontSizes(theme)}>
+      <ThemeProvider theme={Theme}>
         <MuiPickersUtilsProvider utils={MomentUtls}>
           <div className={classes.wrapper}>
             <LogoIcon className={classes.logo} />

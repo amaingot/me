@@ -1,4 +1,3 @@
-/// <reference types="react-scripts" />
 import RollbarType from 'rollbar';
 
 declare global {

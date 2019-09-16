@@ -3,11 +3,11 @@ import ReactGA from 'react-ga';
 import moment, { Moment } from 'moment-timezone';
 import axios from 'axios';
 
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { makeStyles } from '../utils/Theme';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Theme, Link } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
 import Zoom from '@material-ui/core/Zoom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
@@ -17,7 +17,7 @@ import MeetingTimeForm from './MeetingTimeForm';
 import MeetingContactForm from './MeetingContactForm';
 import OopsImage from '../images/oops-large.gif';
 
-const useStyles = makeStyles<Theme, { show: boolean; loading: boolean; error: boolean; success: boolean; }>({
+const useStyles = makeStyles<{ show: boolean; loading: boolean; error: boolean; success: boolean; }>(theme => ({
   card: {
     position: 'absolute',
     width: '40%',
@@ -37,10 +37,11 @@ const useStyles = makeStyles<Theme, { show: boolean; loading: boolean; error: bo
     left: '0',
     width: '100%',
     height: '100%',
-    backgroundColor: 'rbga(255,255,255,0.8)',
+    backgroundColor: 'rgba(255,255,255,0.5)',
     display: ({ loading, error, success }) => success || loading || error ? 'flex' : 'none',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: '2.5rem',
   },
   loadingContainer: {
     position: 'absolute',
@@ -55,6 +56,8 @@ const useStyles = makeStyles<Theme, { show: boolean; loading: boolean; error: bo
   },
   overlayImage: {
     width: '70%',
+    borderRadius: '0.2rem',
+    boxShadow: theme.shadows[3],
   },
   overlayContent: {
     display: 'flex',
@@ -68,7 +71,7 @@ const useStyles = makeStyles<Theme, { show: boolean; loading: boolean; error: bo
     width: '3rem',
     height: '3rem',
   }
-});
+}));
 
 interface Props {
   show: boolean;

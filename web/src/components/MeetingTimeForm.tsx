@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import moment, { Moment } from 'moment-timezone';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '../utils/Theme';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { DatePicker, Day } from '@material-ui/pickers';
 
-import { AvalibilityResponse, TimeSlot } from '../types/APIResponses';
+import { AvalibilityResponse as AvailabilityResponse, TimeSlot } from '../types/APIResponses';
 import getApiHost from '../utils/getApiHost';
 
 const useStyles = makeStyles({
@@ -35,7 +35,7 @@ interface Props {
 
 const MeetingTimeForm: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const [slotData, setSlotData] = React.useState<AvalibilityResponse>();
+  const [slotData, setSlotData] = React.useState<AvailabilityResponse>();
 
   const [selectedDuration, setDuration] = React.useState<DurationTypes>('15m');
   const [currentMonth, setCurrentMonth] = React.useState<Moment>(moment());
@@ -79,16 +79,19 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
   };
 
   const loadData = (date: Moment, dur: string) =>
-    axios.get<AvalibilityResponse>(`${getApiHost()}/meeting/${dur}/availability`, {
+    axios.get<AvailabilityResponse>(`${getApiHost()}/meeting/${dur}/availability`, {
       params: {
         tz: moment.tz.guess(),
         date: date.format('YYYY-MM-DD'),
       }
     })
       .then(resp => {
-        if (resp.status >= 400) props.onError();
         setSlotData(resp.data);
         return resp.data;
+      })
+      .catch(e => {
+        props.onError();
+        window.Rollbar.error('Could not load availability', e)
       });
 
   const submit = () => {
@@ -99,8 +102,9 @@ const MeetingTimeForm: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     loadData(moment(), '15m')
-      .then(({ days }) => {
-        if (!days) return;
+      .then((resp) => {
+        if (!resp) return;
+        const { days } = resp;
         const earliestAvailableDay = days.find(d => d.status === 'available');
         if (earliestAvailableDay) {
           setSelectedDate(moment(earliestAvailableDay.date));
