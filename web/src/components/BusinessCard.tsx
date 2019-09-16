@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 import styled from 'styled-components';
 import Paper from '@material-ui/core/Paper';
 
@@ -54,7 +55,13 @@ const CardSide = styled(Paper)`
 const BusinessCard: React.FC = () => {
   const [showBack, setShowBack] = React.useState(false);
 
-  const flipCard = () => setShowBack(!showBack);
+  const flipCard = () => {
+    ReactGA.event({
+      category: 'CardFlip',
+      action: `Flipped Card to ${showBack ? 'front' : 'back'}`,
+    });
+    setShowBack(v => !v);
+  };
 
   return (
     <CardContainer>

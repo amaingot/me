@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
+import ReactGA from 'react-ga';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import BackIcon from '@material-ui/icons/Reply';
@@ -36,9 +37,6 @@ const useStyles = makeStyles({
   icon: {
     marginRight: '8px',
   },
-  hiddenImage: {
-    display: 'none',
-  },
   roatatedBlackButton: {
     transform: 'rotateY(180deg) rotate(90deg)',
     color: 'white',
@@ -63,24 +61,39 @@ const BusinessCardBack: React.FC<Props> = (props) => {
     img.src = BackgroundImage;
   }, []);
 
+  const socialClick = (url: string, name: string): MouseEventHandler => (e) => {
+    ReactGA.event({
+      category: 'Social',
+      action: `Clicked ${name} Button`,
+    });
+    window.open(url, '_blank');
+  };
+
+  const meetingClick: MouseEventHandler = () => {
+    ReactGA.event({
+      category: 'Meeting',
+      action: `${showSchedule ? 'Closed' : 'Opened'} Meeting Card`,
+    });
+    setShowSchedule(v => !v);
+  };
+
   return (
     <div className={classes.container}>
       <Button className={classes.flipCardButton} onClick={flipCard}>
         <BackIcon className={classes.roatatedBlackButton} />
       </Button>
-      <Button href="https://www.linkedin.com/in/alexmaingot" color="primary" variant="contained">
+      <Button onClick={socialClick('https://www.linkedin.com/in/alexmaingot', 'LinkedIn')} color="primary" variant="contained">
         <LinkedInIcon className={classes.icon} /> Connect on LinkedIn
       </Button>
-      <Button href="https://github.com/amaingot" color="primary" variant="contained">
+      <Button onClick={socialClick('https://github.com/amaingot', 'Github')} color="primary" variant="contained">
         <GithubIcon className={classes.icon} /> See my Code
       </Button>
-      <Button href="https://twitter.com/alexmaingot" color="primary" variant="contained">
+      <Button onClick={socialClick('https://twitter.com/alexmaingot', 'Twitter')} color="primary" variant="contained">
         <TwitterIcon className={classes.icon} /> Tweet at Me
       </Button>
-      <Button color={showSchedule ? 'secondary' : 'primary'} variant="contained" onClick={() => setShowSchedule(!showSchedule)}>
+      <Button color={showSchedule ? 'secondary' : 'primary'} variant="contained" onClick={meetingClick}>
         <CoffeeIcon className={classes.icon} />{showSchedule && "Or Don't "}Meet with Me
       </Button>
-      <img className={classes.hiddenImage} src={BackgroundImage} alt="hidden" />
       <ScheduleMeetingCard show={showSchedule} />
     </div>
   );

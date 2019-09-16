@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 import moment, { Moment } from 'moment-timezone';
 import axios from 'axios';
 
@@ -83,6 +84,11 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
   const classes = useStyles({ ...props, loading, error, success: !!successReponse });
 
   const handleTimeSelected = (time: Moment, duration: string) => {
+    ReactGA.event({
+      category: 'Meeting',
+      action: 'Selected a Meeting Time'
+    });
+
     setTimeSelected(time);
     setDuration(duration);
   }
@@ -90,23 +96,41 @@ const ScheduleMeetingCard: React.FC<Props> = (props) => {
   const scheduleMeeting = (email: string, name: string) => {
     setLoading(true);
 
-    const data = {
+    const requestData = {
       tz: moment.tz.guess(),
       slot: timeSelected,
       name,
       email,
     };
 
-    axios.post<ScheduleResponse>(`${getApiHost()}/meeting/${duration}/schedule`, data)
+    axios.post<ScheduleResponse>(`${getApiHost()}/meeting/${duration}/schedule`, requestData)
       .then(resp => {
-        if (resp.status === 200) {
+        ReactGA.event({
+          category: 'Meeting',
+          action: 'Scheduled a Meeting'
+        });
+        if (resp.status < 400) {
           setSuccessResponse(resp.data);
           setLoading(false);
         } else {
+          window.Rollbar.error("Error scheduling meeting: Bad Response Code", {
+            request: {
+              data: requestData,
+            },
+            response: {
+              status: resp.status,
+              statusText: resp.statusText,
+              data: resp.data,
+              headers: resp.headers,
+            }
+          });
           setError(true);
         }
       })
-      .catch(() => setError(true));
+      .catch((err) => {
+        window.Rollbar.error("Error scheduling meeting: Fatal Error", err);
+        setError(true);
+      });
   };
 
   React.useEffect(() => {
