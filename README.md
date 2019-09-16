@@ -7,7 +7,7 @@ The DNS is hosted by Route53, then CloudFront serves the React bundle and all ot
 ![architecture](./architecture.png)
 
 
-## Contributing
+## Getting Started
 
 This app uses [Lerna](https://lerna.js.org/) to make development easy. To run it locally:
 
