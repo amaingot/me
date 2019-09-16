@@ -50,7 +50,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   }
 
   const parsedDate = moment.tz(query.date, query.tz || 'America/Chicago');
-  const currentDate = moment(new Date());
+  const currentDate = moment.tz(new Date(), moment.tz.guess()).tz(query.tz || 'America/Chicago');
   if (query.date && !parsedDate.isValid()) {
     console.error("Invalid date format: ", query.date);
     return {
@@ -61,7 +61,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
       }),
     };
   } else if (moment(currentDate).isAfter(parsedDate, 'day')) {
-    console.error(`Date in the past: ${query.date}, current date: ${currentDate}`);
+    console.error(`Date in the past: ${parsedDate}, current date: ${currentDate}`);
     return {
       headers,
       statusCode: 400,
