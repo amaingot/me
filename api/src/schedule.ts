@@ -3,6 +3,11 @@ import axios from 'axios';
 import * as moment from 'moment-timezone';
 import 'source-map-support/register';
 
+const headers = {
+  'Access-Control-Allow-Credentials': 'true',
+  'Access-Control-Allow-Origin': 'https://hmm.dev',
+};
+
 export const handler: APIGatewayProxyHandler = async (event, _context) => {
   const { duration } = event.pathParameters;
   let eventId = '';
@@ -24,6 +29,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
     default:
       console.error("Incorrect duration specified: ", duration);
       return {
+        headers,
         statusCode: 404,
         body: JSON.stringify({
           message: 'Path not found'
@@ -39,6 +45,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   if (tz && !moment().tz(tz).tz()) {
     console.error("Invalid timezone format: ", tz);
     return {
+      headers,
       statusCode: 400,
       body: JSON.stringify({
         error: 'Invalid timezone format',
@@ -50,6 +57,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   if (!slot || !parsedSlot.isValid()) {
     console.error("Invalid date format for 'slot': ", slot);
     return {
+      headers,
       statusCode: 400,
       body: JSON.stringify({
         message: 'Invalid format for slot, must be in a valid ISO 8601 or RFC 2822 Date time format'
@@ -60,6 +68,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   if (!name || typeof name !== 'string') {
     console.error("Invalid name format: ", name);
     return {
+      headers,
       statusCode: 400,
       body: JSON.stringify({
         message: 'Invalid name, must be a string'
@@ -70,6 +79,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     console.error("Invalid email format: ", email);
     return {
+      headers,
       statusCode: 400,
       body: JSON.stringify({
         message: 'Invalid email format'
@@ -104,10 +114,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
 
   const result = {
     statusCode: response.status,
-    headers: {
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Origin': 'https://hmm.dev',
-    },
+    headers,
     body: JSON.stringify(response.data),
   };
 

@@ -3,6 +3,11 @@ import axios from 'axios';
 import * as moment from 'moment-timezone';
 import 'source-map-support/register';
 
+const headers = {
+  'Access-Control-Allow-Credentials': 'true',
+  'Access-Control-Allow-Origin': 'https://hmm.dev',
+};
+
 export const handler: APIGatewayProxyHandler = async (event, _context) => {
   const { duration } = event.pathParameters;
   const { queryStringParameters: query } = event;
@@ -25,6 +30,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
     default:
       console.error("Incorrect duration specified: ", duration);
       return {
+        headers,
         statusCode: 404,
         body: JSON.stringify({
           message: 'Path not found'
@@ -35,6 +41,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   if (query.tz && !moment().tz(query.tz).tz()) {
     console.error("Invalid timezone format: ", query.tz);
     return {
+      headers,
       statusCode: 400,
       body: JSON.stringify({
         error: 'Invalid timezone format',
@@ -46,6 +53,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   if (query.date && !parsedDate.isValid()) {
     console.error("Invalid date format: ", query.date);
     return {
+      headers,
       statusCode: 400,
       body: JSON.stringify({
         error: 'Invalid date',
@@ -54,6 +62,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   } else if (moment(moment().format('YYYY-MM-DD')).isAfter(parsedDate, 'day')) {
     console.error("Date in the past: ", query.date);
     return {
+      headers,
       statusCode: 400,
       body: JSON.stringify({
         error: 'Date is in the past',
@@ -92,11 +101,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
   }, null, 2));
 
   const result = {
+    headers,
     statusCode: response.status,
-    headers: {
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Origin': 'https://hmm.dev',
-    },
     body: JSON.stringify({
       days: response.data.days,
     }),
