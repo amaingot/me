@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactGA from 'react-ga';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import gaInit from './utils/gaInit';
 
-const { REACT_APP_GOOGLE_TRACKING_ID: gaId } = process.env;
-gaId && ReactGA.initialize(gaId);
-ReactGA.pageview(window.location.pathname + window.location.search);
+gaInit();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
