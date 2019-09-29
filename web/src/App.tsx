@@ -8,8 +8,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 import LogoIcon from './icons/LogoIcon';
 import BusinessCard from './components/BusinessCard';
-import { Theme } from './utils/Theme';
-import { makeStyles } from './utils/Theme';
+import { Theme, makeStyles} from './utils/Theme';
 
 const useStyles = makeStyles({
   wrapper: {
