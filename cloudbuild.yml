@@ -1,7 +1,7 @@
 steps:
-  # - name: "gcr.io/cloud-builders/docker"
-  #   entrypoint: "bash"
-  #   args: ["-c", "docker pull gcr.io/hmm-dev/me:latest || exit 0"]
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args: ["-c", "docker pull gcr.io/hmm-dev/me:latest || exit 0"]
 
   - name: "gcr.io/cloud-builders/docker"
     args: [
@@ -10,7 +10,7 @@ steps:
         "gcr.io/hmm-dev/me:latest",
         "--build-arg",
         "COMMIT_SHA=${COMMIT_SHA}",
-        # "--cache-from=gcr.io/hmm-dev/me:latest",
+        "--cache-from=gcr.io/hmm-dev/me:latest",
         ".",
       ]
 
@@ -26,16 +26,16 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/hmm-dev/me:latest"]
 
-  # - name: 'gcr.io/cloud-builders/kubectl'
-  #   args:
-  #     - 'set'
-  #     - 'image'
-  #     - 'deployment/me'
-  #     - '--namespace=me'
-  #     - 'me=gcr.io/hmm-dev/me:$COMMIT_SHA'
-  #   env:
-  #     - "CLOUDSDK_COMPUTE_ZONE=us-central1-a"
-  #     - "CLOUDSDK_CONTAINER_CLUSTER=hmm"
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'set'
+      - 'image'
+      - 'deployment/me'
+      - '--namespace=me'
+      - 'me=gcr.io/hmm-dev/me:$COMMIT_SHA'
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=us-central1-a"
+      - "CLOUDSDK_CONTAINER_CLUSTER=hmm"
 
 images:
   - "gcr.io/hmm-dev/me:$COMMIT_SHA"

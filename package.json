@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "author": "Alex Maingot <alex.maingot@gmail.com>",
   "private": true,
-  "homepage": "https://hmm.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amaingot/me.git"

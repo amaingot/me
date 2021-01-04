@@ -3,7 +3,6 @@
   "description": "My personal site",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://hmm.dev",
   "author": "Alex Maingot (alex@maingot.us)",
   "scripts": {
     "start": "react-scripts start",
