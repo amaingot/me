@@ -40,7 +40,7 @@ const BusinessCardFront: React.FC<Props> = (props) => {
     <BCContainer>
       <div>
         <Typography variant="h4">Alex Maingot</Typography>
-        <Typography variant="subtitle2">Software Engineer</Typography>
+        <Typography variant="subtitle2">Software Engineering Manager @ <a href="https://kazoohr.com">Kazoo</a></Typography>
         <Typography variant="subtitle1">Austin, Texas</Typography>
       </div>
       <div>
