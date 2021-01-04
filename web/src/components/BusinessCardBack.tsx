@@ -69,13 +69,13 @@ const BusinessCardBack: React.FC<Props> = (props) => {
     window.open(url, '_blank');
   };
 
-  const meetingClick: MouseEventHandler = () => {
-    ReactGA.event({
-      category: 'Meeting',
-      action: `${showSchedule ? 'Closed' : 'Opened'} Meeting Card`,
-    });
-    setShowSchedule(v => !v);
-  };
+  // const meetingClick: MouseEventHandler = () => {
+  //   ReactGA.event({
+  //     category: 'Meeting',
+  //     action: `${showSchedule ? 'Closed' : 'Opened'} Meeting Card`,
+  //   });
+  //   setShowSchedule(v => !v);
+  // };
 
   return (
     <div className={classes.container}>
@@ -91,9 +91,9 @@ const BusinessCardBack: React.FC<Props> = (props) => {
       <Button onClick={socialClick('https://twitter.com/alexmaingot', 'Twitter')} color="primary" variant="contained">
         <TwitterIcon className={classes.icon} /> Tweet at Me
       </Button>
-      <Button color={showSchedule ? 'secondary' : 'primary'} variant="contained" onClick={meetingClick}>
+      {/* <Button color={showSchedule ? 'secondary' : 'primary'} variant="contained" onClick={meetingClick}>
         <CoffeeIcon className={classes.icon} />{showSchedule && "Or Don't "}Meet with Me
-      </Button>
+      </Button> */}
       <ScheduleMeetingCard show={showSchedule} />
     </div>
   );

@@ -106,3 +106,5 @@ dist
 # Generated Type Files
 server/src/graphql/types.ts
 web/src/graphql/hooks.tsx
+
+build
