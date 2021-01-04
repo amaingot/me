@@ -2,33 +2,28 @@
   "name": "me",
   "description": "My personal web app",
   "version": "1.0.0",
+  "author": "Alex Maingot <alex.maingot@gmail.com>",
   "private": true,
-  "author": "Alex Maingot (alex@maingot.us)",
   "homepage": "https://hmm.dev",
-  "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "start": "lerna run start --parallel",
-    "test:web": "lerna run --scope web test",
-    "build:web": "lerna run --scope web build",
-    "deploy:api": "lerna run --scope api deploy:prod",
-    "deploy:web": "s3-deploy './web/build/**' --cwd './web/build/' --region $AWS_REGION --bucket $S3_BUCKET_NAME --deleteRemoved --distId $CLOUDFRONT_DIST_ID --invalidate '/*'"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amaingot/me.git"
   },
-  "keywords": [
-    "react",
-    "typescript",
-    "serverless",
-    "material-ui",
-    "aws-lambda"
+  "workspaces": [
+    "server", "web"
   ],
-  "bugs": {
-    "url": "https://github.com/amaingot/me/issues"
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "generate": "graphql-codegen --config codegen.yml",
+    "postinstall": "yarn generate",
+    "start:in-container": "yarn --cwd=server start:in-container",
+    "build:web": "yarn --cwd=web build"
   },
-  "dependencies": {
-    "lerna": "^3.16.4",
-    "s3-deploy": "^1.4.0"
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.20.0",
+    "@graphql-codegen/typescript": "^1.20.0",
+    "@graphql-codegen/typescript-operations": "^1.17.13",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.1",
+    "@graphql-codegen/typescript-resolvers": "^1.18.1"
   }
 }
