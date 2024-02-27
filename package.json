@@ -1,34 +1,31 @@
 {
   "name": "me",
-  "description": "My personal web app",
-  "version": "1.0.0",
   "private": true,
-  "author": "Alex Maingot (alex@maingot.us)",
-  "homepage": "https://hmm.dev",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "start": "lerna run start --parallel",
-    "test:web": "lerna run --scope web test",
-    "build:web": "lerna run --scope web build",
-    "deploy:api": "lerna run --scope api deploy:prod",
-    "deploy:web": "s3-deploy './web/build/**' --cwd './web/build/' --region $AWS_REGION --bucket $S3_BUCKET_NAME --deleteRemoved --distId $CLOUDFRONT_DIST_ID --invalidate '/*'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/amaingot/me.git"
-  },
-  "keywords": [
-    "react",
-    "typescript",
-    "serverless",
-    "material-ui",
-    "aws-lambda"
-  ],
-  "bugs": {
-    "url": "https://github.com/amaingot/me/issues"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "lerna": "^3.16.4",
-    "s3-deploy": "^1.4.0"
+    "@mantine/core": "^7.5.3",
+    "@mantine/hooks": "^7.5.3",
+    "@tabler/icons-react": "^2.47.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4"
   }
 }
