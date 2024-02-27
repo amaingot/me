@@ -31,7 +31,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: yarn
-          cache-dependency-path: ui/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: 🏗 Set Yarn version to Berry
         run: yarn set version berry
