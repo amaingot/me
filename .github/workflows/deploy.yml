@@ -38,11 +38,7 @@ jobs:
 
       - name: 📚 Install dependencies
         run: |
-          yarn install --immutable
-
-      - name: 📚 Generate GraphQL hooks/types
-        run: |
-          yarn gql
+          yarn install
 
       - name: 🛠 Build UI Assets
         env:
