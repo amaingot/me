@@ -60,8 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ui_s3_bucket: ${{ fromJson(steps.tf_output.outputs.stdout).ui_s3_bucket.value }}
-      cloudfront_distribution_id: ${{ fromJson(steps.tf_output.outputs.stdout).cloudfront_distribution_id.value }}
-      deployment_url: ${{ fromJson(steps.tf_output.outputs.stdout).deployment_url.value }}
+      cloudfront_distribution_ids: ${{ fromJson(steps.tf_output.outputs.stdout).cloudfront_distribution_ids.value }}
     steps:
       - name: 🏗 Check out the repo
         uses: actions/checkout@v3
@@ -101,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ needs.tf_apply.outputs.deployment_url }}
+      url: https://maingot.io
     needs:
       - build_ui
       - tf_apply
@@ -126,7 +125,14 @@ jobs:
           aws s3 sync ui-assets s3://${{ needs.tf_apply.outputs.ui_s3_bucket }} --delete
 
       - name: 🧹 Invalidate Dev Cloudfront Caches
+        env:
+          CDN_IDS: ${{ needs.tf_apply.outputs.cloudfront_distribution_ids }}
         run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ needs.tf_apply.outputs.cloudfront_distribution_id }} \
-            --paths '/*'
+          IFS=',' read -r -a array <<< "$CDN_IDS"
+
+          for distribution_id in "${array[@]}"
+          do
+            aws cloudfront create-invalidation \
+              --distribution-id "$distribution_id" \
+              --paths '/*'
+          done

@@ -19,8 +19,21 @@ provider "aws" {
 
 data "aws_region" "current" {}
 
+data "aws_caller_identity" "current" {}
+
 locals {
-  ui_host = "maingot.io"
+  ui_domains = [
+    "alexmaingot.com",
+    "alexmaingot.dev",
+    "amaingot.com",
+    "amaingot.dev",
+    "esyncsolutions.net",
+    "fruitfulstate.com",
+    "hmm.dev",
+    "maingot.dev",
+    "maingot.io",
+    "maingot.us",
+  ]
 
   log_rention_days = 30
 
@@ -28,13 +41,4 @@ locals {
     Application = "Personal Website"
     Repository  = "github.com/amaingot/me"
   }
-}
-
-data "aws_acm_certificate" "maingot_io" {
-  domain = local.ui_host
-  types  = ["AMAZON_ISSUED"]
-}
-
-data "aws_route53_zone" "maingot_io" {
-  name = "${local.ui_host}."
 }

@@ -1,11 +1,7 @@
-output "cloudfront_distribution_id" {
-  value = aws_cloudfront_distribution.ui.id
-}
-
 output "ui_s3_bucket" {
-  value = aws_s3_bucket.ui.bucket
+  value = aws_s3_bucket.ui_assets.bucket
 }
 
-output "deployment_url" {
-  value = "https://${local.ui_host}"
+output "cloudfront_distribution_ids" {
+  value = join(",", [for cdn in module.cdns : cdn.cloudfront_distribution_id])
 }
