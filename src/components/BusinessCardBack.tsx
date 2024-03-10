@@ -38,7 +38,6 @@ const BusinessCardBack: React.FC<Props> = (props) => {
         style={{ position: "absolute", right: "1rem", top: "1rem" }}
         onClick={flipCard}
         value="filled"
-        color="blue"
       >
         <IconArrowBack color="white" />
       </ActionIcon>

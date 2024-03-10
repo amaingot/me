@@ -14,7 +14,7 @@ const App: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: theme.colors.blue[9],
+        backgroundColor: theme.colors.gray[9],
         position: "relative",
       }}
     >
