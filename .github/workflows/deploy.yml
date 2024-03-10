@@ -135,4 +135,5 @@ jobs:
             aws cloudfront create-invalidation \
               --distribution-id "$distribution_id" \
               --paths '/*'
+            sleep 2
           done
