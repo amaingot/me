@@ -13,15 +13,18 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.idea
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
 
 # Terraform
 .terraform/
 .terraform.*
+
+# yarn v2
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
