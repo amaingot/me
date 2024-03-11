@@ -17,6 +17,7 @@ env:
   AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
   AWS_REGION: "us-east-1"
   AWS_ROLE: ${{ secrets.AWS_ROLE }}
+  ENVIRONMENT: production
 
 jobs:
   build_ui:
@@ -45,6 +46,10 @@ jobs:
       - name: 🛠 Build UI Assets
         env:
           VITE_SHA: ${{ github.sha }}
+          VITE_ENV: ${{ env.ENVIRONMENT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         run: |
           yarn build
 
@@ -137,3 +142,12 @@ jobs:
               --paths '/*'
             sleep 2
           done
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: ${{ env.ENVIRONMENT }}
