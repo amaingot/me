@@ -38,7 +38,8 @@ locals {
   log_rention_days = 30
 
   tags = {
-    Application = "Personal Website"
+    Project     = "Personal Website"
+    Environment = "prod"
     Repository  = "github.com/amaingot/me"
   }
 }
