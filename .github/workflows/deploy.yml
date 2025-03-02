@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: true
 
@@ -54,7 +54,7 @@ jobs:
           yarn build
 
       - name: 💾 Save UI assets to Github
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ui-assets
           path: dist/*
@@ -68,7 +68,7 @@ jobs:
       cloudfront_distribution_ids: ${{ fromJson(steps.tf_output.outputs.stdout).cloudfront_distribution_ids.value }}
     steps:
       - name: 🏗 Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🔐 Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -111,10 +111,10 @@ jobs:
       - tf_apply
     steps:
       - name: 🏗 Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: ⬇️ Download UI assets from Github
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ui-assets
           path: ui-assets
