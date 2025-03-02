@@ -8,7 +8,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.31.0"
+      version = "~> 5.87.0"
     }
   }
 }
@@ -35,7 +35,6 @@ locals {
     "maingot.us",
   ]
 
-  log_rention_days = 30
 
   tags = {
     Project     = "Personal Website"

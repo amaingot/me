@@ -8,12 +8,12 @@ variable "tags" {
   description = "Tags for UI CDN"
 }
 
-variable "s3_target_origin_id" {
+variable "bucket_regional_domain_name" {
   type = string
   description = "S3 bucket regional domain name"
 }
 
-variable "s3_website_endpoint" {
+variable "website_endpoint" {
   type = string
   description = "S3 website endpoint"
 }

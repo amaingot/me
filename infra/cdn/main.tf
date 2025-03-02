@@ -17,8 +17,8 @@ resource "aws_cloudfront_distribution" "ui" {
   tags                = var.tags
 
   origin {
-    domain_name = var.s3_website_endpoint
-    origin_id   = var.s3_target_origin_id
+    domain_name = var.website_endpoint
+    origin_id   = var.bucket_regional_domain_name
 
     custom_origin_config {
       http_port                = 80
@@ -51,7 +51,7 @@ resource "aws_cloudfront_distribution" "ui" {
     compress               = true
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = var.s3_target_origin_id
+    target_origin_id       = var.bucket_regional_domain_name
 
     forwarded_values {
       query_string = false
