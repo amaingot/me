@@ -39,9 +39,12 @@ const BusinessCard: React.FC = () => {
             backfaceVisibility: "hidden",
             backgroundColor: "white",
             overflow: "hidden",
-            transition: showBack ? "opacity 0.4s" : undefined,
+            transition: showBack ? "opacity 0.4s" : "all 0.4s ease",
             transitionDelay: showBack ? "0.4s" : undefined,
             opacity: showBack ? 0 : 1,
+            boxShadow: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+            borderRadius: "4px",
+            transform: "translateY(-5px)",
           }}
         >
           <BusinessCardFront flipCard={flipCard} />
@@ -55,7 +58,10 @@ const BusinessCard: React.FC = () => {
             backgroundColor: "white",
             overflow: "hidden",
             opacity: 1,
-            transform: "rotateY(180deg)",
+            transform: "rotateY(180deg) translateY(-5px)",
+            boxShadow: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+            transition: "all 0.4s ease",
+            borderRadius: "4px",
           }}
         >
           <BusinessCardBack flipCard={flipCard} />

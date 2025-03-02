@@ -2,10 +2,9 @@ import React from "react";
 
 import LogoIcon from "./svg/LogoIcon";
 import BusinessCard from "./components/BusinessCard";
-import { Box, useMantineTheme } from "@mantine/core";
+import { Box } from "@mantine/core";
 
 const App: React.FC = () => {
-  const theme = useMantineTheme();
   return (
     <Box
       style={{
@@ -14,7 +13,7 @@ const App: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: theme.colors.gray[9],
+        background: "linear-gradient(135deg, #1e3c72, #2a5298)",
         position: "relative",
       }}
     >
