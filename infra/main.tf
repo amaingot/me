@@ -32,7 +32,6 @@ locals {
     "hmm.dev",
     "maingot.dev",
     "maingot.io",
-    "maingot.us",
   ]
 
 
