@@ -1,0 +1,7 @@
+{
+    "scripts": {
+        "setup": "yarn",
+        "run": "yarn dev --port $CONDUCTOR_PORT",
+        "archive": "rm -rf node_modules"
+    }
+}

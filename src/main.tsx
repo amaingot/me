@@ -7,6 +7,7 @@ import App from "./App";
 import { theme } from "./utils/theme";
 
 import "@mantine/core/styles.css";
+import "./styles.css";
 import config from "./utils/config";
 
 Sentry.init({
