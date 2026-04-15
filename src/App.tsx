@@ -1,8 +1,7 @@
 import React from "react";
 
-import LogoIcon from "./svg/LogoIcon";
 import BusinessCard from "./components/BusinessCard";
-import { Box } from "@mantine/core";
+import { Box, Text } from "@mantine/core";
 
 const App: React.FC = () => {
   return (
@@ -13,20 +12,28 @@ const App: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(135deg, #1e3c72, #2a5298)",
+        backgroundColor: "#f8f7f5",
+        backgroundImage:
+          "radial-gradient(circle, #d0ccc6 0.8px, transparent 0.8px)",
+        backgroundSize: "24px 24px",
         position: "relative",
       }}
     >
-      <LogoIcon
+      <Text
+        component="span"
         style={{
-          color: "white",
           position: "absolute",
           left: "2rem",
           top: "2rem",
-          height: "4rem",
-          width: "4rem",
+          fontSize: "14px",
+          fontWeight: 900,
+          color: "#1a1a1a",
+          letterSpacing: "2px",
+          animation: "logoEntrance 0.6s ease 0.3s both",
         }}
-      />
+      >
+        AM<span style={{ color: "#e63946" }}>.</span>
+      </Text>
       <BusinessCard />
     </Box>
   );
